@@ -89,13 +89,13 @@ def main():
     for url_dict in urls_to_scrape:
         url = url_dict.get("url")
         exclude_words = url_dict.get("exclude", [])
-
+        n_pages = url_dict.get("pages", 3)
         print("Scraping: %s" % url)
         if len(exclude_words):
             print("Excluding: " + ", ".join(exclude_words))
 
         kijiji_scraper.set_exclude_list(exclude_words)
-        ads, email_title = kijiji_scraper.scrape_kijiji_for_ads(url)
+        ads, email_title = kijiji_scraper.scrape_kijiji_for_ads(url, n_pages)
 
         info_string = "Found %s new ads" % len(ads) \
             if len(ads) != 1 else "Found 1 new ad"

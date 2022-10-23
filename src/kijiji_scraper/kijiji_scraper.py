@@ -1,5 +1,5 @@
 from copy import copy
-
+from loguru import logger as log
 import requests
 from bs4 import BeautifulSoup
 import json
@@ -45,13 +45,15 @@ class KijijiScraper():
         self.exclude_list = self.words_to_lower(exclude_words)
 
     # Pulls page data from a given kijiji url and finds all ads on each page
-    def scrape_kijiji_for_ads(self, url):
+    def scrape_kijiji_for_ads(self, url,n_pages=3):
         self.new_ads = {}
         # Keep track of originnal url to use for exclude list later
         original_url = copy(url)
         email_title = None
+        count_pages = 0
         while url:
             # Get the html data from the URL
+            log.debug(f"Getting page {count_pages} for {original_url}")
             page = requests.get(url)
             soup = BeautifulSoup(page.content, "html.parser")
 
@@ -66,6 +68,10 @@ class KijijiScraper():
             url = soup.find('a', {'title': 'Next'})
             if url:
                 url = 'https://www.kijiji.ca' + url['href']
+            if count_pages > n_pages:
+                log.warning(f"Reached max number of pages for {original_url} - {n_pages}")
+                break
+
         if self.new_ads:
             for k, v in self.new_ads.items():
                 v['original_url'] = original_url
@@ -98,8 +104,10 @@ class KijijiScraper():
             # If any of the title words match the exclude list then skip
             condition_exclude = False
             full_text = kijiji_ad.title.lower() + " " + kijiji_ad.info["Description"] .lower()
+            # full_text = kijiji_ad.title.lower()
             for word in self.exclude_list:
-                if word in full_text:
+                if full_text.contains(word.lower()):
+                    log.info(f"Skipping ad {kijiji_ad.id} because it contains <{word}> ")
                     condition_exclude = True
                     break
 
