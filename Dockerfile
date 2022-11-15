@@ -11,6 +11,8 @@ RUN crontab /etc/cron.d/cron-spec
 RUN touch /var/log/cron.log
 # Run the command on container startup
 COPY . /opt/app
+# install punkt with nltk
+RUN python -m nltk.downloader punkt
 ENTRYPOINT ["sh", "/opt/app/entrypoint.sh"]
 #CMD ["cron", "-f"]
 

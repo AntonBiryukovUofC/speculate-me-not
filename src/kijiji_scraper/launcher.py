@@ -89,6 +89,8 @@ def main():
     for url_dict in urls_to_scrape:
         url = url_dict.get("url")
         exclude_words = url_dict.get("exclude", [])
+        if len(exclude_words) > 0:
+            exclude_words = [str(e) for e in exclude_words]
         n_pages = url_dict.get("pages", 3)
         print("Scraping: %s" % url)
         if len(exclude_words):

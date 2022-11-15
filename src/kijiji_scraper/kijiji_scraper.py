@@ -1,4 +1,7 @@
+import re
 from copy import copy
+
+import nltk
 from loguru import logger as log
 import requests
 from bs4 import BeautifulSoup
@@ -6,6 +9,16 @@ import json
 from kijiji_ad import KijijiAd
 from pathlib import Path
 
+
+
+def extract_phone_numbers(string):
+    r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})')
+    phone_numbers = r.findall(string)
+    return [re.sub(r'\D', '', number) for number in phone_numbers]
+
+def extract_email_addresses(string):
+    r = re.compile(r'[\w\.-]+@[\w\.-]+')
+    return r.findall(string)
 
 class KijijiScraper():
 
@@ -71,7 +84,7 @@ class KijijiScraper():
             if count_pages > n_pages:
                 log.warning(f"Reached max number of pages for {original_url} - {n_pages}")
                 break
-
+            count_pages += 1
         if self.new_ads:
             for k, v in self.new_ads.items():
                 v['original_url'] = original_url
@@ -103,13 +116,17 @@ class KijijiScraper():
 
             # If any of the title words match the exclude list then skip
             condition_exclude = False
-            full_text = kijiji_ad.title.lower() + " " + kijiji_ad.info["Description"] .lower()
-            # full_text = kijiji_ad.title.lower()
+            full_text = kijiji_ad.title.lower() + " " + kijiji_ad.info["Description"].lower()
+            full_text_word_list = set(nltk.word_tokenize(full_text)) | set(extract_phone_numbers(full_text)) \
+                                  | set(extract_email_addresses(full_text))
+
             for word in self.exclude_list:
-                if full_text.contains(word.lower()):
+                # check if two or more words are in the word
+                if (word.lower() in full_text_word_list) or ( (len(word.split()) > 1) and word.lower() in full_text):
                     log.info(f"Skipping ad {kijiji_ad.id} because it contains <{word}> ")
                     condition_exclude = True
                     break
+
 
             if not condition_exclude:
 

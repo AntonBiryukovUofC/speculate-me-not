@@ -36,7 +36,8 @@ def main(
         telegram_chat_id: str = typer.Option("", envvar="TELEGRAM_CHAT_ID"),
         all_ads_json_loc: str = typer.Option("/home/anton/.kijiji_scraper/config_ads.json"),
         sent_ads_json_loc: str = typer.Option("/home/anton/.kijiji_scraper/sent_ads.json"),
-        sync_dropbox_locations: bool = typer.Option(True,flag_value=True)):
+        sync_dropbox_locations: bool = typer.Option(True,flag_value=True),
+        ignore_business_ads: bool = typer.Option(True,flag_value=True)):
 
     dropbox_fs = DropboxDriveFS(token=dropbox_token,
                                 app_key=os.environ['APP_KEY'],
@@ -72,7 +73,7 @@ def main(
     # initiate Ad scraper
 
     scraper = AdScraper(all_ads=all_ads, sent_ads=sent_ads, dropbox_token=dropbox_token, telegram_token=telegram_token,
-                        telegram_chat_id=telegram_chat_id)
+                        telegram_chat_id=telegram_chat_id,ignore_business_ads=ignore_business_ads)
 
     for k, ad in scraper.ads.items():
         scraper.send_telegram_ad(ad)

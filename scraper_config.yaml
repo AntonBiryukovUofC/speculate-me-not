@@ -48,7 +48,7 @@ smtp port: 465
     - kollektion
     - ella grace
 - url: https://www.kijiji.ca/b-furniture/calgary/c235l1700199?ll=51.044733%2C-114.071883&address=Calgary%2C+AB&radius=50.0
-  pages: 4
+  pages: 2
   exclude:
     - Kollektion
     - Mahogany
@@ -83,6 +83,87 @@ smtp port: 465
     - Baby
     - Kids
     - Jysk
+    - computer
+    - twin
+    - kallax
+    - TV
+    - faux
+    - fire table
+    - fireplace
+    - firepit
+    - wrought iron
+    - bean bag
+    - beanbag
+    - Ashley
+    - brand new
+    - Structube
+    - Natuzzi
+    - Bed frame
+    - Box
+    - Brand new
+    - Sectional
+    - French
+    - Provincial
+    - Farmhouse
+    - Ladder
+    - Game
+    - Gaming
+    - Best selling
+    - Shoe
+    - Rack
+    - shoerack
+    - Glider
+    - Structube
+    - Cedar
+    - Spruce
+    - Desk chair
+    - Massage
+    - Queen Anne
+    - Ethan Allen
+    - Sklar
+    - Maple
+    - Microfibre
+    - Microfiber
+    - Reclaimed
+    - Painted
+    - La-z-boy
+    - Pool table
+    - Power
+    - Oak
+    - Papasan
+    - Futon
+    - Epoxy
+    - Beach
+    - Camping
+    - Sofa bed
+    - Lawn
+    - Mattresses
+    - Ashley
+    - Filing
+    - File cabinet
+    - Trunk
+    - Clearance
+    - Farm house
+    - Murphy
+    - Heavy duty
+    - Floral
+    - Memory foam
+    - Pull out
+    - Pullout
+    - Iron
+    - Conference
+    - Laminate
+    - Tufted headboard
+    - Boxspring
+    - Loft bed
+    - Folding table
+    - Bamboo
+    - Standing desk
+    - Industrial
+    - Pier
+    - Child
+    - Barrel
+    - 4038285672
 
 # Url with exclude words given
 # - url: https://www.kijiji.ca/b-cars-trucks/alberta/tesla-new__used/c174l9003a54a49
