@@ -118,13 +118,19 @@ def main(
             log.info(f'Ad {ad["Id"]} was not sent, skipping for now')
 
     # Update sent ads:
-    log.info(f'Updating sent ads with {len(scraper.ads)} ads')
+    fs = scraper.dropbox_fs
     with open(sent_ads_json_loc, "w") as f:
         json.dump(scraper.sent_ads, f)
+    log.info(f'Updating sent ads with {len(scraper.ads)} ads')
     log.info(f'Updating Dropbox sent ads file with {len(scraper.ads)} ads')
-    scraper.dropbox_fs.put_file(sent_ads_json_loc, SENT_ADS_JSON_LOC_DROPBOX)
+
+    with fs.open(SENT_ADS_JSON_LOC_DROPBOX, mode='w') as f:
+        f.write(json.dumps(scraper.sent_ads))
     log.info(f'Updating Dropbox all ads file')
-    scraper.dropbox_fs.put_file(all_ads_json_loc, ALL_ADS_JSON_LOC_DROPBOX)
+
+    with fs.open(ALL_ADS_JSON_LOC_DROPBOX, mode='w') as f:
+        f.write(json.dumps(all_ads))
+
     log.info('Done!')
 
 
