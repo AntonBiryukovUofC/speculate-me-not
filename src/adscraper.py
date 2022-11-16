@@ -9,6 +9,7 @@ import telegram
 from bs4 import BeautifulSoup
 from loguru import logger as log
 import requests
+from telegram.error import RetryAfter
 
 cached_requests = requests_cache.CachedSession('http_cache', backend='sqlite',
                                                use_temp=True)
@@ -87,8 +88,7 @@ class AdScraper:
             log.info(f"Skipping (ignore business = {self.ignore_business_ads}) business ad: {ad['Url']}")
             ad['time_sent'] = current_ts_str
             ad['is_business'] = is_business
-            self.sent_ads[ad['Id']] = ad
-            return 0
+            return True
 
         try:
             if len(media) > 0:
@@ -98,10 +98,12 @@ class AdScraper:
                     self.sent_ads[ad['Id']] = ad
             else:
                 ad['time_sent'] = current_ts_str
-                self.sent_ads[ad['Id']] = ad
+        except RetryAfter:
+            log.error(f"Telegram exceeded rate limit, will skip the ad")
+            return False
         except Exception as e:
             log.exception(e)
-        return 0
+        return True
 
     def parse_ad_images(self, ad):
         url = ad['Url']
@@ -127,8 +129,8 @@ class AdScraper:
         else:
             return False
 
-    def save_ad_artefacts(self, ad, ad_id, destination_folder, fs):
-        imgs = self.parse_ad_images(ad)
+    def save_ad_artefacts(self, ad, ad_id, destination_folder, fs,n_images = 5):
+        imgs = self.parse_ad_images(ad)[:n_images]
         for i, img in enumerate(imgs):
 
             if img is not None:

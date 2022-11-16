@@ -28,22 +28,27 @@ smtp port: 465
 # midcentury buy and sell
 # midcentury real estate
 - url: https://www.kijiji.ca/b-buy-sell/calgary/teak/k0c10l1700199?rb=true&ll=51.044733%2C-114.071883&address=Calgary%2C+AB&radius=50.0
+  pages: 2
   exclude:
     - kollektion
     - ella grace
 - url: https://www.kijiji.ca/b-buy-sell/calgary/midcentury/k0c10l1700199?rb=true&ll=51.044733%2C-114.071883&address=Calgary%2C+AB&radius=50.0
+  pages: 2
   exclude:
     - kollektion
     - ella grace
 - url: https://www.kijiji.ca/b-real-estate/calgary/midcentury/k0c34l1700199?ll=51.044733%2C-114.071883&address=Calgary%2C+AB&radius=50.0
+  pages: 2
   exclude:
     - kollektion
     - ella grace
 - url: https://www.kijiji.ca/b-buy-sell/calgary/danish/k0c10l1700199?rb=true&ll=51.044733%2C-114.071883&address=Calgary%2C+AB&radius=50.0
+  pages: 2
   exclude:
     - kollektion
     - ella grace
 - url: https://www.kijiji.ca/b-buy-sell/calgary/denmark/k0c10l1700199?rb=true&ll=51.044733%2C-114.071883&address=Calgary%2C+AB&radius=50.0
+  pages: 2
   exclude:
     - kollektion
     - ella grace

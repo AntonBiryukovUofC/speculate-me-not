@@ -1,9 +1,12 @@
-# fly.toml file generated for speculate-me-not on 2022-11-15T23:27:35-07:00
+# fly.toml file generated for speculate-me-not on 2022-10-16T23:26:27-06:00
 
 app = "speculate-me-not"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
+
+[build]
+  dockerfile = "Dockerfile"
 
 [env]
 

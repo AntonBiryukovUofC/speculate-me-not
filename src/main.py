@@ -105,11 +105,16 @@ def main(
                         telegram_chat_id=telegram_chat_id, ignore_business_ads=ignore_business_ads)
 
     for k, ad in scraper.ads.items():
-        scraper.send_telegram_ad(ad)
-        scraper.save_ad_artefacts(ad=ad,
-                                  ad_id=k,
-                                  destination_folder='/Data/kijiji_ads',
-                                  fs=scraper.dropbox_fs)
+        is_sent = scraper.send_telegram_ad(ad)
+        if is_sent:
+            # If telegram message was sent , add to sent_ads
+            scraper.sent_ads[ad['Id']] = ad
+            scraper.save_ad_artefacts(ad=ad,
+                                   ad_id=k,
+                                   destination_folder='/Data/kijiji_ads',
+                                   fs=scraper.dropbox_fs)
+        else:
+            log.info(f'Ad {ad["Id"]} was not sent, skipping for now')
 
     # Update sent ads:
     log.info(f'Updating sent ads with {len(scraper.ads)} ads')
