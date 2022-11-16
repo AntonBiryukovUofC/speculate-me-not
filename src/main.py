@@ -113,6 +113,7 @@ def main(
                                    ad_id=k,
                                    destination_folder='/Data/kijiji_ads',
                                    fs=scraper.dropbox_fs)
+            log.info(f'Processed Ad {ad["Id"]}')
         else:
             log.info(f'Ad {ad["Id"]} was not sent, skipping for now')
 

@@ -83,11 +83,11 @@ class AdScraper:
             media = []
 
         is_business = self.is_posted_by_business(ad)
+        ad['is_business'] = is_business
 
         if self.ignore_business_ads and is_business:
             log.info(f"Skipping (ignore business = {self.ignore_business_ads}) business ad: {ad['Url']}")
             ad['time_sent'] = current_ts_str
-            ad['is_business'] = is_business
             return True
 
         try:
@@ -140,7 +140,7 @@ class AdScraper:
                     img_resp = cached_requests.get(img)
                     with fs.open(final_dest, mode='wb') as f:
                         f.write(img_resp.content)
-                    log.info(f"Uploaded {img} to {final_dest}")
+                    log.debug(f"Uploaded {img} to {final_dest}")
                 except Exception as e:
                     log.error('Failed to deliver image!')
                     log.exception(e)
